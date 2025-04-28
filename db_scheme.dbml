@@ -1,0 +1,46 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table tags {
+  tag_id     serial    [primary key]
+  name       text      [not null]
+  deadline   timestamp
+  difficulty integer
+  done       bool
+
+  Note: 'Tags information'
+}
+
+Table tasks {
+  task_id     serial    [primary key]
+  title       text      [not null]
+  description text
+  deadline    timestamp
+  difficulty  integer
+  done        bool      [default: false, not null]
+
+  Note: 'Tasks information'
+}
+
+Table task_tag {
+  id      serial  [primary key]
+  task_id integer [not null, ref: > tasks.task_id]
+  tag_id  integer [not null, ref: > tags.tag_id]
+
+  Note: 'Link table between tasks and tags'
+}
+
+Table filters {
+  filter_id serial [primary key]
+  name      text   [not null]
+
+  Note: 'Filter information'
+}
+
+Table tag_filter {
+  id        serial  [primary key]
+  tag_id    integer [not null, ref: > tags.tag_id]
+  filter_id integer [not null, ref: > filters.filter_id]
+
+  Note: 'Link table between filters and tags'
+}

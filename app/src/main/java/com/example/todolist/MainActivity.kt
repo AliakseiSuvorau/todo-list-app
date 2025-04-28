@@ -1,17 +1,25 @@
 package com.example.todolist
 
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.commit
+import com.example.todolist.model.DatabaseInitializer
+import com.example.todolist.model.repositories.FilterRepository
+import com.example.todolist.model.repositories.TagRepository
+import com.example.todolist.model.repositories.TaskRepository
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var db: SQLiteDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        initDB()
 
         // Initial main page content
         supportFragmentManager.commit {
@@ -43,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setButtonClickListeners() {
         findViewById<Button>(R.id.all_tasks_list_button).setOnClickListener {
-            openFragmentOnMainPage(AllTasksList())
+            openFragmentOnMainPage(AllTasksPage())
         }
 
         findViewById<Button>(R.id.current_tasks_list_button).setOnClickListener {
@@ -53,5 +61,12 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.settings_button).setOnClickListener {
             openFragmentOnMainPage(Settings())
         }
+    }
+
+    private fun initDB() {
+        db = DatabaseInitializer(this).writableDatabase
+        TagRepository.init(db)
+        TaskRepository.init(db)
+        FilterRepository.init(db)
     }
 }
