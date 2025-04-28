@@ -4,13 +4,13 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getStringOrNull
-import com.example.todolist.model.dtos.filters.TaskFilter
+import com.example.todolist.model.dtos.filters.Filter
 import com.example.todolist.model.dtos.tags.Tag
 import kotlin.time.Duration
 
-object FilterRepository : Repository<TaskFilter> {
+object FilterRepository : Repository<Filter> {
     private lateinit var db: SQLiteDatabase
-    private lateinit var filters: Collection<TaskFilter>
+    private lateinit var filters: MutableCollection<Filter>
 
     fun init(database: SQLiteDatabase) {
         db = database
@@ -26,29 +26,41 @@ object FilterRepository : Repository<TaskFilter> {
             "filter_id = ?",
             arrayOf(id.toString())
         )
+
+        filters.removeIf { f ->
+            f.filterId == id
+        }
     }
 
-    override fun upsert(filter: TaskFilter) {
-        val cursor = db.rawQuery(
-            "SELECT COUNT(*) FROM filters WHERE filter_id = ?",
+    override fun upsert(filter: Filter): Int {
+        val values = ContentValues().apply {
+            put("name", filter.name)
+        }
+
+        val rowsUpdated = db.update(
+            "filters",
+            values,
+            "filter_id = ?",
             arrayOf(filter.filterId.toString())
         )
 
-        // If exists then return
-        cursor.use { c ->
-            if (c.moveToNext()) {
-                val count = c.getInt(0)
-                if (count > 0) {
-                    return
-                }
-            }
+        if (rowsUpdated == 0) {
+            val newFilterId = (db.insert("filters", null, values)).toInt()
+            filter.filterId = newFilterId
+            filters.add(filter)
+            return newFilterId
         }
 
-        db.insert("filters", null, ContentValues())
+        filters.removeIf { f ->
+            f.filterId == filter.filterId
+        }
+        filters.add(filter)
+
+        return filter.filterId
     }
 
-    private fun load(): Collection<TaskFilter> {
-        val filters = mutableListOf<TaskFilter>()
+    private fun load(): MutableCollection<Filter> {
+        val filters = mutableListOf<Filter>()
         val cursor = db.query(
             "filters",
             null,
@@ -61,7 +73,7 @@ object FilterRepository : Repository<TaskFilter> {
 
         cursor.use { c ->
             while (c.moveToNext()) {
-                val filter = TaskFilter(
+                val filter = Filter(
                     filterId = c.getInt(c.getColumnIndexOrThrow("filter_id")),
                     name = c.getString(c.getColumnIndexOrThrow("name")),
                 )
@@ -111,5 +123,21 @@ object FilterRepository : Repository<TaskFilter> {
             null,
             values
         )
+
+        val tag = TagRepository.getById(tagId) ?: throw IllegalStateException("Linking null tag to a filter")
+
+        filters.filter { f ->
+            f.filterId == filterId
+        }.forEach { f ->
+            f.tags.add(tag)
+        }
+    }
+
+    fun unlinkTag(tagId: Int) {
+        filters.forEach { filter ->
+            filter.tags.removeIf { tag ->
+                tag.tagId == tagId
+            }
+        }
     }
 }

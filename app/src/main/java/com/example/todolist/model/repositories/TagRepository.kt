@@ -33,7 +33,8 @@ object TagRepository : Repository<Tag> {
                 val tag = Tag(
                     tagId = c.getInt(c.getColumnIndexOrThrow("tag_id")),
                     name = c.getString(c.getColumnIndexOrThrow("title")),
-                    deadline = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))?.let { Duration.parse(it) },
+                    deadline = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))
+                        ?.let { Duration.parse(it) },
                     difficulty = c.getIntOrNull(c.getColumnIndexOrThrow("difficulty")),
                     done = c.getIntOrNull(c.getColumnIndexOrThrow("done")) == 1,
                 )
@@ -64,9 +65,16 @@ object TagRepository : Repository<Tag> {
             "tag_id = ?",
             arrayOf(id.toString())
         )
+
+        tags.removeIf { t ->
+            t.tagId == id
+        }
+
+        TaskRepository.unlinkTag(id)
+        FilterRepository.unlinkTag(id)
     }
 
-    override fun upsert(tag: Tag) {
+    override fun upsert(tag: Tag): Int {
         val values = ContentValues().apply {
             put("name", tag.name)
             put("deadline", tag.deadline.toString())
@@ -82,7 +90,66 @@ object TagRepository : Repository<Tag> {
         )
 
         if (rowsUpdated == 0) {
-            db.insert("tags", null, values)
+            val newTagId = (db.insert("tags", null, values)).toInt()
+            tag.tagId = newTagId
+            tags.add(tag)
+            return newTagId
         }
+
+        tags.removeIf { t ->
+            t.tagId == tag.tagId
+        }
+        tags.add(tag)
+
+        return tag.tagId
+    }
+
+    fun getById(id: Int): Tag? {
+        val cursor = db.query(
+            "tags",
+            null,
+            "tag_id = ?",
+            arrayOf(id.toString()),
+            null,
+            null,
+            null,
+        )
+
+        cursor.use { c ->
+            if (c.moveToNext()) {
+                return Tag(
+                    tagId = id,
+                    name = c.getString(c.getColumnIndexOrThrow("name")),
+                    deadline = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))?.let { Duration.parse(it) },
+                    difficulty = c.getIntOrNull(c.getColumnIndexOrThrow("difficulty")),
+                    done = c.getIntOrNull(c.getColumnIndexOrThrow("done")) == 1
+                )
+            }
+            return null
+        }
+    }
+
+    fun getMultipleByIds(ids: Iterable<Int>): MutableCollection<Tag> {
+        val placeholders = ids.joinToString(",") { "?" }
+
+        val cursor = db.rawQuery(
+            "SELECT * FROM tags WHERE tags.tag_id IN ($placeholders)",
+            ids.map { id -> id.toString() }.toTypedArray()
+        )
+
+        val tags = mutableListOf<Tag>()
+        cursor.use { c ->
+            while (c.moveToNext()) {
+                tags.add(Tag(
+                    tagId = c.getInt(c.getColumnIndexOrThrow("tag_id")),
+                    name = c.getString(c.getColumnIndexOrThrow("name")),
+                    deadline = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))?. let { Duration.parse(it) },
+                    difficulty = c.getIntOrNull(c.getColumnIndexOrThrow("difficulty")),
+                    done = c.getIntOrNull(c.getColumnIndexOrThrow("done")) == 1,
+                ))
+            }
+        }
+
+        return tags
     }
 }

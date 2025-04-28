@@ -26,9 +26,13 @@ object TaskRepository : Repository<Task> {
             "task_id = ?",
             arrayOf(id.toString())
         )
+
+        tasks.removeIf { t ->
+            t.taskId == id
+        }
     }
 
-    override fun upsert(task: Task) {
+    override fun upsert(task: Task): Int {
         val values = ContentValues().apply {
             put("title", task.title)
             put("description", task.description)
@@ -45,8 +49,18 @@ object TaskRepository : Repository<Task> {
         )
 
         if (rowsUpdated == 0) {
-            db.insert("tasks", null, values)
+            val newTaskId = (db.insert("tasks", null, values)).toInt()
+            task.taskId = newTaskId
+            tasks.add(task)
+            return newTaskId
         }
+
+        tasks.removeIf { t ->
+            t.taskId == task.taskId
+        }
+        tasks.add(task)
+
+        return task.taskId
     }
 
     private fun load(): MutableCollection<Task> {
@@ -119,5 +133,21 @@ object TaskRepository : Repository<Task> {
             null,
             values
         )
+
+        val tag = TagRepository.getById(tagId) ?: throw IllegalStateException("Linking null tag to a task")
+
+        tasks.filter { t ->
+            t.taskId == taskId
+        }.forEach { t ->
+            t.tags.add(tag)
+        }
+    }
+
+    fun unlinkTag(tagId: Int) {
+        tasks.forEach { task ->
+            task.tags.removeIf { tag ->
+                tag.tagId == tagId
+            }
+        }
     }
 }
