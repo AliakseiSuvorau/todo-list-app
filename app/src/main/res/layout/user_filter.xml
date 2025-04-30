@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ToggleButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/user_filter_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="@color/black"
+    android:textSize="24sp"
+    android:background="@drawable/toggle_button_background_off"
+    android:layout_marginLeft="2sp"
+    android:layout_marginRight="2sp"
+    android:textAlignment="center"
+    android:textAllCaps="false"/>

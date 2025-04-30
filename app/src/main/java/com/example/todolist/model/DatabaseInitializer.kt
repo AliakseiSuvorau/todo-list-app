@@ -55,7 +55,8 @@ class DatabaseInitializer(context: Context) : SQLiteOpenHelper(context, DATABASE
         db.execSQL(
             """
             CREATE TABLE filters (
-                filter_id INTEGER PRIMARY KEY AUTOINCREMENT
+                filter_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL
             );
             """.trimIndent()
         )

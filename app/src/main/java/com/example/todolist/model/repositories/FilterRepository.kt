@@ -6,7 +6,9 @@ import androidx.core.database.getIntOrNull
 import androidx.core.database.getStringOrNull
 import com.example.todolist.model.dtos.filters.Filter
 import com.example.todolist.model.dtos.tags.Tag
-import kotlin.time.Duration
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 object FilterRepository : Repository<Filter> {
     private lateinit var db: SQLiteDatabase
@@ -97,10 +99,16 @@ object FilterRepository : Repository<Filter> {
 
             cursor.use { c ->
                 while (c.moveToNext()) {
+                    val deadlineString = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))
+                    var deadline: Instant? = null
+                    if (deadlineString != "null") {
+                        deadline = Instant.parse(deadlineString)
+                    }
+
                     val tag = Tag(
                         tagId = c.getInt(c.getColumnIndexOrThrow("tag_id")),
                         name = c.getString(c.getColumnIndexOrThrow("name")),
-                        deadline = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))?.let { Duration.parse(it) },
+                        deadline = deadline,
                         difficulty = c.getIntOrNull(c.getColumnIndexOrThrow("difficulty")),
                         done = c.getIntOrNull(c.getColumnIndexOrThrow("done"))?.let { it == 1 }
                     )

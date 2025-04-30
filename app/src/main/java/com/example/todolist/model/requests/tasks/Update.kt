@@ -2,11 +2,11 @@ package com.example.todolist.model.requests.tasks
 
 import java.time.Instant
 
-data class AddTaskRequest(
+data class UpdateTaskRequest(
+    val taskId: Int,
     val title: String,
     val description: String?,
     val deadline: Instant?,
     val difficulty: Int?,
-    val done: Boolean = false,
-    val userTagIds: Iterable<Int>,
+    val done: Boolean,
 )

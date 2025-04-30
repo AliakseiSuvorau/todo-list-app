@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <EditText
+            android:id="@+id/task_name"
+            android:hint="Enter task title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_user_tag_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_add_40"
+                app:rippleColor="#FFFFFF"
+                android:backgroundTint="#4092D5"
+                app:maxImageSize="40dp"
+                app:fabSize="mini"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tags_recycler"
+                android:layout_width="wrap_content"
+                android:minHeight="32sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:autofillHints="hdhhd"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/task_deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deadline"/>
+
+        <NumberPicker
+            android:id="@+id/task_difficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/task_description"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:hint="Task description"/>
+
+    </LinearLayout>
+
+</ScrollView>

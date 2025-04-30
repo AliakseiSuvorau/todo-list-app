@@ -2,38 +2,91 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#FFCC80">
+    android:background="@drawable/background_all_tasks">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="5dp"
-        android:gravity="center">
+        android:orientation="vertical"
+        android:layout_marginTop="5dp">
 
-        <Button
-            android:id="@+id/add_user_filter_button"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:layout_gravity="center"
-            android:drawableTop="@drawable/baseline_add_40"
-            android:background="@drawable/add_button_background"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Filters"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="32sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="5dp">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_user_filter_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_add_40"
+                app:rippleColor="#FFFFFF"
+                android:backgroundTint="#4092D5"
+                app:maxImageSize="40dp"
+                app:fabSize="mini"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/user_filters_recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/user_filters_recycler"
+            android:id="@+id/service_filters_recycler"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"/>
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/service_filters_recycler"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tasks"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="32sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tasks_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_task_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_add_40"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="10dp"
+            app:rippleColor="#FFFFFF"
+            android:backgroundTint="#4092D5"
+            app:maxImageSize="60dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

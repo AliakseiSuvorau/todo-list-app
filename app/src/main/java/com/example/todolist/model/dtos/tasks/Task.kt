@@ -1,15 +1,15 @@
 package com.example.todolist.model.dtos.tasks
 
 import com.example.todolist.model.dtos.tags.Tag
-import kotlin.time.Duration
+import java.time.Instant
 
 data class Task(
     var taskId: Int = -1,
-    val title: String,
-    val description: String?,
-    val deadline: Duration?,
-    val difficulty: Int?,
-    val done: Boolean,
+    var title: String,
+    var description: String?,
+    var deadline: Instant?,
+    var difficulty: Int?,
+    var done: Boolean,
     var tags: MutableCollection<Tag> = mutableListOf(),
 )
 
