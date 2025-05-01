@@ -11,6 +11,8 @@ object TagService {
     private const val DIFFICULTY_TAG_NAME = ".difficulty"
     private const val COMPLETION_TAG_NAME = ".done"
 
+    private val toggledUserTags = mutableListOf<Tag>()
+
     fun addTag(request: AddTagRequest): Tag {
         val newTag = Tag(name = request.name)
         val newTagId = TagRepository.upsert(newTag)
@@ -78,4 +80,17 @@ object TagService {
 
     fun getUserTags() = TagRepository.getAll()
         .filterNot { it.name == DEADLINE_TAG_NAME || it.name == DIFFICULTY_TAG_NAME || it.name == COMPLETION_TAG_NAME }
+
+    fun removeTagFromToggled(tag: Tag) {
+        toggledUserTags.remove(tag)
+    }
+
+    fun addTagToToggled(tag: Tag) {
+        if (!toggledUserTags.contains(tag)) {
+            toggledUserTags.add(tag)
+        }
+    }
+
+    fun getToggledUserTags() = toggledUserTags
+    fun clearToggledUserTags() = toggledUserTags.clear()
 }

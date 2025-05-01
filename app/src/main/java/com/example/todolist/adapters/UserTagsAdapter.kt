@@ -7,10 +7,10 @@ import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.model.dtos.tags.Tag
+import com.example.todolist.model.services.TagService
 
 class UserTagsAdapter(
     private val userTags: MutableList<Tag>,
-    private val toggledUserTags: MutableList<Tag> = mutableListOf()
 ): RecyclerView.Adapter<UserTagsAdapter.UserTagViewHolder>() {
 
     inner class UserTagViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -33,9 +33,9 @@ class UserTagsAdapter(
 
         private fun handleTagToggle(tag: Tag, isChecked: Boolean) {
             if (isChecked) {
-                addTagToToggled(tag)
+                TagService.addTagToToggled(tag)
             } else {
-                removeTagFromToggled(tag)
+                TagService.removeTagFromToggled(tag)
             }
         }
 
@@ -45,20 +45,6 @@ class UserTagsAdapter(
             } else {
                 button.setBackgroundResource(R.drawable.toggle_button_background_off)
             }
-        }
-    }
-
-    fun getToggledTagIds() = toggledUserTags.map { it.tagId }
-    fun clearToggledTags() = toggledUserTags.clear()
-
-    // FIXME: Move these methods to TagService
-    private fun removeTagFromToggled(tag: Tag) {
-        toggledUserTags.remove(tag)
-    }
-
-    private fun addTagToToggled(tag: Tag) {
-        if (!toggledUserTags.contains(tag)) {
-            toggledUserTags.add(tag)
         }
     }
 

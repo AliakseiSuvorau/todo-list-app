@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="2dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="2dp"
+    android:orientation="horizontal">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_user_filter_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#4092D5"
+        android:src="@drawable/baseline_add_40"
+        app:fabSize="mini"
+        app:maxImageSize="40dp"
+        app:rippleColor="#FFFFFF" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/user_filters_recycler"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

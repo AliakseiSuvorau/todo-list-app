@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.current_tasks_list_button).setOnClickListener {
-            openFragmentOnMainPage(CurrentTasksList())
+            openFragmentOnMainPage(CurrentTasksPage())
         }
 
         findViewById<Button>(R.id.settings_button).setOnClickListener {
