@@ -25,7 +25,7 @@ class TasksFragment(
             TaskService.getAllTasks()
         }
 
-        taskAdapter = TasksAdapter(tasks.toMutableList(), showCurrentTasks)
+        taskAdapter = TasksAdapter(tasks.toMutableList(), showCurrentTasks, this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

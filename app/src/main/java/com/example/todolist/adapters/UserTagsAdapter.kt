@@ -11,6 +11,7 @@ import com.example.todolist.model.services.TagService
 
 class UserTagsAdapter(
     private val userTags: MutableList<Tag>,
+    private val toggledTags: Iterable<Tag> = emptyList(),
 ): RecyclerView.Adapter<UserTagsAdapter.UserTagViewHolder>() {
 
     inner class UserTagViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -22,6 +23,10 @@ class UserTagsAdapter(
             button.textOff = tag.name
 
             button.setOnCheckedChangeListener(null)
+
+            if (toggledTags.contains(tag)) {
+                button.isChecked = true
+            }
 
             updateButtonBackground(button.isChecked)
 

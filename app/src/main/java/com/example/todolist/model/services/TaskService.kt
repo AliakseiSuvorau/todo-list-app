@@ -6,6 +6,7 @@ import com.example.todolist.model.dtos.tasks.Task
 import com.example.todolist.model.repositories.TagRepository
 import com.example.todolist.model.repositories.TaskRepository
 import com.example.todolist.model.requests.tasks.AddTaskRequest
+import com.example.todolist.model.requests.tasks.DeleteTaskRequest
 import com.example.todolist.model.requests.tasks.UpdateTaskRequest
 import java.time.Instant
 import java.time.ZoneId
@@ -108,12 +109,20 @@ object TaskService {
             description = request.description,
             deadline = request.deadline,
             difficulty = request.difficulty,
+            tags = request.userTags,
             done = request.done
         )
 
         TaskRepository.upsert(task)
+        for (tag in task.tags) {
+            TaskRepository.linkTag(tag.tagId, task.taskId)
+        }
     }
 
+    fun deleteTask(request: DeleteTaskRequest) {
+        TaskRepository.delete(request.taskId)
+        TaskRepository.unlinkTags(request.taskId)
+    }
 
     fun checkTask(task: Task, filters: Iterable<Filter>) =
         filters.all { filter -> FilterService.checkTask(task, filter) }

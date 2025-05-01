@@ -169,4 +169,12 @@ object TaskRepository : Repository<Task> {
             }
         }
     }
+
+    fun unlinkTags(taskId: Int) {
+        db.delete(
+            "task_tag",
+            "task_id = ?",
+            arrayOf(taskId.toString())
+        )
+    }
 }

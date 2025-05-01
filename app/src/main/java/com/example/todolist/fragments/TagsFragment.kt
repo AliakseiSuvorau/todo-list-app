@@ -10,12 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.adapters.UserTagsAdapter
+import com.example.todolist.model.dtos.tags.Tag
 import com.example.todolist.model.requests.tags.AddTagRequest
 import com.example.todolist.model.services.TagService
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class TagsFragment : Fragment(R.layout.tags_bar) {
+class TagsFragment(
+    private val toggledTags: Iterable<Tag> = emptyList()
+) : Fragment(R.layout.tags_bar) {
 
     private lateinit var recyclerUserTags: RecyclerView
     private lateinit var addUserTagButton: FloatingActionButton
@@ -38,7 +41,7 @@ class TagsFragment : Fragment(R.layout.tags_bar) {
         val userTags = TagService.getUserTags()
         recyclerUserTags.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        userTagsAdapter = UserTagsAdapter(userTags.toMutableList())
+        userTagsAdapter = UserTagsAdapter(userTags.toMutableList(), toggledTags)
         recyclerUserTags.adapter = userTagsAdapter
     }
 

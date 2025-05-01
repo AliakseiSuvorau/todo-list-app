@@ -4,9 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
+import com.example.todolist.fragments.EditTaskFragment
 import com.example.todolist.model.dtos.filters.Filter
 import com.example.todolist.model.dtos.tasks.Task
 import com.example.todolist.model.requests.tasks.UpdateTaskRequest
@@ -16,6 +20,7 @@ import com.example.todolist.model.services.TaskService
 class TasksAdapter(
     private var items: MutableList<TaskItem>,
     private val showCurrentTasks: Boolean = false,
+    private val fragment: Fragment,
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -34,6 +39,7 @@ class TasksAdapter(
     inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val textView = view.findViewById<TextView>(R.id.task_name)
         private var checkBox = view.findViewById<CheckBox>(R.id.task_done)
+        private val taskBar = view.findViewById<LinearLayout>(R.id.task_bar)
 
         fun render(entry: TaskItem.TaskEntry) {
             val task = entry.task
@@ -58,6 +64,13 @@ class TasksAdapter(
 
                 val toggledFilters = FilterService.getToggledFilters()
                 updateTasksList(toggledFilters)
+            }
+
+            taskBar.setOnClickListener {
+                fragment.requireActivity().supportFragmentManager.commit {
+                    replace(R.id.fragment_container, EditTaskFragment(task, this@TasksAdapter))
+                    addToBackStack(null)
+                }
             }
         }
     }

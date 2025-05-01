@@ -19,6 +19,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Calendar
+import java.util.Locale
 
 class AddFilterFragment(
     private val filterAdapter: FiltersAdapter
@@ -46,7 +47,7 @@ class AddFilterFragment(
         var selectedDeadline: Instant? = null
         pickDeadlineButton.setOnClickListener {
             showDatePicker { year, month, day ->
-                val selectedDate = "$day.${month + 1}.$year"
+                val selectedDate = String.format(Locale.UK, "%04d.%02d.%02d", year, month+1, day)
                 pickDeadlineButton.text = selectedDate
                 selectedDeadline =
                     LocalDate.of(year, month + 1, day).atStartOfDay().atZone(ZoneId.systemDefault())
