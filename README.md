@@ -10,7 +10,7 @@
 
 ### Creating tag flow
 
-![create_tag.png](images/add_user_tag.png)
+![user_tag_add.png](images/user_tag_add.png)
 
 ### Creating task flow
 

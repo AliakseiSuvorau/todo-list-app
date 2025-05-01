@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose tags to include in filter"
+        android:text="Choose tags"
         android:textColor="@color/black" />
 
     <LinearLayout

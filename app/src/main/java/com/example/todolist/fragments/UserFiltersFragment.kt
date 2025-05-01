@@ -3,6 +3,7 @@ package com.example.todolist.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
@@ -30,7 +31,10 @@ class UserFiltersFragment(
         recyclerUserFilters.adapter = filterAdapter
 
         view.findViewById<FloatingActionButton>(R.id.add_user_filter_button).setOnClickListener {
-            AddFilterDialogFragment(filterAdapter).show(childFragmentManager, "AddFilterDialog")
+            requireActivity().supportFragmentManager.commit {
+                replace(R.id.fragment_container, AddFilterFragment(filterAdapter))
+                addToBackStack(null)
+            }
         }
     }
 }

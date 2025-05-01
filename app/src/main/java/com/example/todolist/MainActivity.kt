@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     private fun openFragmentOnMainPage(f: Fragment) {
         supportFragmentManager.commit {
             replace(R.id.fragment_container, f)
+            addToBackStack(null)
         }
     }
 

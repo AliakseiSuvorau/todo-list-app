@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.adapters.TasksAdapter
 import android.view.View
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.R
 import com.example.todolist.model.services.TaskService
@@ -41,7 +42,10 @@ class TasksFragment(
         recyclerTasks.adapter = taskAdapter
 
         view.findViewById<FloatingActionButton>(R.id.add_task_button).setOnClickListener {
-            AddTaskDialogFragment(taskAdapter).show(childFragmentManager, "AddTaskDialog")
+            requireActivity().supportFragmentManager.commit {
+                replace(R.id.fragment_container, AddTaskFragment(taskAdapter))
+                addToBackStack(null)
+            }
         }
     }
 
