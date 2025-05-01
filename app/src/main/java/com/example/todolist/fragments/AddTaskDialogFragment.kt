@@ -10,7 +10,7 @@ import android.widget.NumberPicker
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.example.todolist.R
-import com.example.todolist.TaskListReloader
+import com.example.todolist.adapters.TasksAdapter
 import com.example.todolist.model.requests.tasks.AddTaskRequest
 import com.example.todolist.model.services.FilterService
 import com.example.todolist.model.services.TagService
@@ -21,10 +21,9 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Calendar
 
-class AddTaskDialogFragment : DialogFragment() {
-
-    private val MIN_DIFFICULTY = 1
-    private val MAX_DIFFICULTY = 10
+class AddTaskDialogFragment(
+    private val tasksAdapter: TasksAdapter
+) : DialogFragment() {
 
     private var selectedDeadline: Instant? = null
 
@@ -67,9 +66,9 @@ class AddTaskDialogFragment : DialogFragment() {
 
                 TagService.clearToggledUserTags()
 
-                val filters = FilterService.getToggledFilters()
-                val filteredTasks = TaskService.getFilteredTasks(filters)
-                TaskListReloader.reloadTasksList(filteredTasks)
+
+                val toggledFilters = FilterService.getToggledFilters()
+                tasksAdapter.updateTasksList(toggledFilters)
             }
             .setNegativeButton("Cancel", null)
             .create()
@@ -96,5 +95,10 @@ class AddTaskDialogFragment : DialogFragment() {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
         datePickerDialog.show()
+    }
+
+    companion object {
+        private const val MIN_DIFFICULTY = 1
+        private const val MAX_DIFFICULTY = 10
     }
 }

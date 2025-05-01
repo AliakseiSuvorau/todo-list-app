@@ -63,15 +63,8 @@ class TagsFragment : Fragment(R.layout.tags_bar) {
 
                 val newUserTag = TagService.addTag(request)
                 userTagsAdapter.addNewTag(newUserTag)
-
             }
             .setNegativeButton("Back", null)
             .show()
-    }
-
-    private fun displayTagsInView(view: View) {
-
-
-
     }
 }

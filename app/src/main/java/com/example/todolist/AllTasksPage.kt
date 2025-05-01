@@ -12,16 +12,17 @@ class AllTasksPage : Fragment(R.layout.fragment_all_tasks) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val tasksFragment = TasksFragment(showCurrentTasks = false)
         childFragmentManager.beginTransaction()
-            .replace(R.id.user_filters_list, UserFiltersFragment())
+            .replace(R.id.task_list, tasksFragment)
             .commit()
 
         childFragmentManager.beginTransaction()
-            .replace(R.id.service_filters_list, ServiceFiltersFragment())
+            .replace(R.id.user_filters_list, UserFiltersFragment(tasksFragment.getAdapter()))
             .commit()
 
         childFragmentManager.beginTransaction()
-            .replace(R.id.task_list, TasksFragment())
+            .replace(R.id.service_filters_list, ServiceFiltersFragment(tasksFragment.getAdapter()))
             .commit()
     }
 }

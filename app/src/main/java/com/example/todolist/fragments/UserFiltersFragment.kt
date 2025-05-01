@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.adapters.FiltersAdapter
+import com.example.todolist.adapters.TasksAdapter
 import com.example.todolist.model.services.FilterService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class UserFiltersFragment : Fragment(R.layout.user_filter_list) {
+class UserFiltersFragment(
+    private val tasksAdapter: TasksAdapter,
+) : Fragment(R.layout.user_filter_list) {
 
     private lateinit var recyclerUserFilters: RecyclerView
     private lateinit var filterAdapter: FiltersAdapter
@@ -23,7 +26,7 @@ class UserFiltersFragment : Fragment(R.layout.user_filter_list) {
         val userFilters = FilterService.getAllUserFilters()
         recyclerUserFilters.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        filterAdapter = FiltersAdapter(userFilters.toMutableList())
+        filterAdapter = FiltersAdapter(userFilters.toMutableList(), tasksAdapter)
         recyclerUserFilters.adapter = filterAdapter
 
         view.findViewById<FloatingActionButton>(R.id.add_user_filter_button).setOnClickListener {

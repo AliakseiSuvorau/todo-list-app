@@ -25,8 +25,10 @@ class AddFilterDialogFragment(
     private val filterAdapter: FiltersAdapter
 ) : DialogFragment() {
 
-    private val MIN_DIFFICULTY = 1
-    private val MAX_DIFFICULTY = 10
+    companion object {
+        private const val MIN_DIFFICULTY = 1
+        private const val MAX_DIFFICULTY = 10
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_filter, null)

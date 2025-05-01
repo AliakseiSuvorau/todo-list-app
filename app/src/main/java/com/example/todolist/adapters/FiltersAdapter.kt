@@ -6,13 +6,12 @@ import android.view.ViewGroup
 import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
-import com.example.todolist.TaskListReloader
 import com.example.todolist.model.dtos.filters.Filter
 import com.example.todolist.model.services.FilterService
-import com.example.todolist.model.services.TaskService
 
 class FiltersAdapter(
     private val filters: MutableList<Filter>,
+    private val tasksAdapter: TasksAdapter,
 ) : RecyclerView.Adapter<FiltersAdapter.FilterViewHolder>() {
 
     inner class FilterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -41,8 +40,7 @@ class FiltersAdapter(
             }
 
             val toggledFilters = FilterService.getToggledFilters()
-            val tasks = TaskService.getFilteredTasks(toggledFilters)
-            TaskListReloader.reloadTasksList(tasks)
+            tasksAdapter.updateTasksList(toggledFilters)
         }
 
         private fun updateButtonBackground(isChecked: Boolean) {

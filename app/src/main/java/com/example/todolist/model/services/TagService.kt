@@ -51,10 +51,11 @@ object TagService {
     }
 
     fun getCompletionTag(done: Boolean) = Tag(name = COMPLETION_TAG_NAME, done = done)
+    fun getDeadlineTag(deadline: Instant) = Tag(name = DEADLINE_TAG_NAME, deadline = deadline)
 
-    fun checkTag(task: Task, filterTag: Tag): Boolean {
+    fun checkTag(task: Task, filterTag: Tag, showTasksWithoutDeadline: Boolean = true): Boolean {
         return when (filterTag.name) {
-            DEADLINE_TAG_NAME -> checkDeadline(task.deadline, filterTag.deadline!!)
+            DEADLINE_TAG_NAME -> checkDeadline(task.deadline, filterTag.deadline!!, showTasksWithoutDeadline)
             DIFFICULTY_TAG_NAME -> checkDifficulty(
                 task.difficulty!!,
                 filterTag.difficulty!!
@@ -71,8 +72,8 @@ object TagService {
         }
     }
 
-    private fun checkDeadline(taskDeadline: Instant?, deadline: Instant) =
-        taskDeadline == null || taskDeadline < deadline
+    private fun checkDeadline(taskDeadline: Instant?, deadline: Instant, showTasksWithoutDeadline: Boolean) =
+        (showTasksWithoutDeadline && taskDeadline == null) || (taskDeadline != null &&  taskDeadline < deadline)
 
     private fun checkDifficulty(taskDifficulty: Int, difficulty: Int) = taskDifficulty == difficulty
     private fun checkCompletion(taskIsDone: Boolean, done: Boolean) = taskIsDone == done

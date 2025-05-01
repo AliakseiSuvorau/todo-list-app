@@ -7,9 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.adapters.FiltersAdapter
+import com.example.todolist.adapters.TasksAdapter
 import com.example.todolist.model.services.FilterService
 
-class ServiceFiltersFragment : Fragment(R.layout.service_filter_list) {
+class ServiceFiltersFragment(
+    private val tasksAdapter: TasksAdapter,
+) : Fragment(R.layout.service_filter_list) {
 
     private lateinit var recyclerServiceFilters: RecyclerView
 
@@ -20,7 +23,7 @@ class ServiceFiltersFragment : Fragment(R.layout.service_filter_list) {
         recyclerServiceFilters.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerServiceFilters.adapter =
-            FiltersAdapter(getServiceFilters().toMutableList())
+            FiltersAdapter(getServiceFilters().toMutableList(), tasksAdapter)
     }
 
     private fun getServiceFilters() = FilterService.getServiceFilters()

@@ -55,8 +55,8 @@ object FilterService {
         )
     }
 
-    fun filterTasks(tasks: Iterable<Task>, filter: Filter) = tasks.filter { task -> checkTask(task, filter) }
-    fun checkTask(task: Task, filter: Filter) = filter.tags.all { filterTag -> TagService.checkTag(task, filterTag) }
+    fun filterTasks(tasks: Iterable<Task>, filter: Filter, showTasksWithoutDeadline: Boolean = true) = tasks.filter { task -> checkTask(task, filter, showTasksWithoutDeadline) }
+    fun checkTask(task: Task, filter: Filter, showTasksWithoutDeadline: Boolean = true) = filter.tags.all { filterTag -> TagService.checkTag(task, filterTag, showTasksWithoutDeadline) }
 
     fun addFilterToToggled(filter: Filter) {
         if (!toggledFilters.contains(filter)) {
