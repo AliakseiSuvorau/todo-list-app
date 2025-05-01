@@ -8,6 +8,7 @@ import com.example.todolist.model.repositories.TaskRepository
 import com.example.todolist.model.requests.tasks.AddTaskRequest
 import com.example.todolist.model.requests.tasks.DeleteTaskRequest
 import com.example.todolist.model.requests.tasks.UpdateTaskRequest
+import com.example.todolist.sortTasksByDifficulty
 import java.time.Instant
 import java.time.ZoneId
 
@@ -41,7 +42,10 @@ object TaskService {
         tasks.map { TaskItem.TaskEntry(it) }
 
     fun getFilteredTasks(filters: Collection<Filter>, showTasksWithoutDeadline: Boolean = true): MutableList<TaskItem> {
-        var tasks = TaskRepository.getAll()
+        var tasks = TaskRepository.getAll().toList()
+        if (sortTasksByDifficulty) {
+            tasks = tasks.sortedByDescending { it.difficulty }
+        }
 
         if (filters.isEmpty()) {
             return convertTasksToTaskEntries(tasks).toMutableList()

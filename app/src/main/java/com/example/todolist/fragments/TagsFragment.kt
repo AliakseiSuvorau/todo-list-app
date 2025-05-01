@@ -56,7 +56,7 @@ class TagsFragment(
             .setBackground(
                 ContextCompat.getDrawable(
                     requireContext(),
-                    R.drawable.background_all_tasks
+                    R.drawable.background
                 )
             )
             .setPositiveButton("Add") { _, _ ->

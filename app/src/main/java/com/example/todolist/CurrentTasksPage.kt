@@ -13,10 +13,18 @@ class CurrentTasksPage : Fragment(R.layout.fragment_current_tasks) {
         super.onViewCreated(view, savedInstanceState)
 
         val tasksFragment = TasksFragment(showCurrentTasks = true)
-        childFragmentManager.commit {
-            replace(R.id.task_list, tasksFragment)
-            replace(R.id.user_filters_list, UserFiltersFragment(tasksFragment.getAdapter()))
-            addToBackStack(null)
+
+        if (showFilters) {
+            childFragmentManager.commit {
+                replace(R.id.task_list, tasksFragment)
+                replace(R.id.user_filters_list, UserFiltersFragment(tasksFragment.getAdapter()))
+                addToBackStack(null)
+            }
+        } else {
+            childFragmentManager.commit {
+                replace(R.id.task_list, tasksFragment)
+                addToBackStack(null)
+            }
         }
     }
 }

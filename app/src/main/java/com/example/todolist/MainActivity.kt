@@ -44,9 +44,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openFragmentOnMainPage(f: Fragment) {
-        supportFragmentManager.commit {
-            replace(R.id.fragment_container, f)
-            addToBackStack(null)
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        val sameClass = currentFragment?.javaClass == f.javaClass
+
+        if (!sameClass) {
+            supportFragmentManager.commit {
+                replace(R.id.fragment_container, f)
+                addToBackStack(null)
+            }
         }
     }
 
@@ -60,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.settings_button).setOnClickListener {
-            openFragmentOnMainPage(Settings())
+            openFragmentOnMainPage(SettingsPage())
         }
     }
 

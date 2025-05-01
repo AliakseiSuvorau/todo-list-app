@@ -15,6 +15,7 @@ import com.example.todolist.model.requests.tasks.AddTaskRequest
 import com.example.todolist.model.services.FilterService
 import com.example.todolist.model.services.TagService
 import com.example.todolist.model.services.TaskService
+import com.example.todolist.showFilters
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -32,8 +33,10 @@ class AddTaskFragment(
         val taskTitle = view.findViewById<EditText>(R.id.task_name)
 
         // List of tags
-        childFragmentManager.commit {
-            replace(R.id.tags_bar, TagsFragment())
+        if (showFilters) {
+            childFragmentManager.commit {
+                replace(R.id.tags_bar, TagsFragment())
+            }
         }
 
         // Deadline

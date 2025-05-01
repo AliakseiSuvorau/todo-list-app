@@ -14,12 +14,12 @@ import androidx.fragment.app.commit
 import com.example.todolist.R
 import com.example.todolist.adapters.TasksAdapter
 import com.example.todolist.model.dtos.tasks.Task
-import com.example.todolist.model.requests.tags.AddTagRequest
 import com.example.todolist.model.requests.tasks.DeleteTaskRequest
 import com.example.todolist.model.requests.tasks.UpdateTaskRequest
 import com.example.todolist.model.services.FilterService
 import com.example.todolist.model.services.TagService
 import com.example.todolist.model.services.TaskService
+import com.example.todolist.showFilters
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.time.Instant
 import java.time.LocalDate
@@ -41,8 +41,10 @@ class EditTaskFragment(
         taskTitle.setText(task.title)
 
         // List of tags
-        childFragmentManager.commit {
-            replace(R.id.tags_bar, TagsFragment(task.tags))
+        if (showFilters) {
+            childFragmentManager.commit {
+                replace(R.id.tags_bar, TagsFragment(task.tags))
+            }
         }
 
         // Deadline
@@ -125,7 +127,7 @@ class EditTaskFragment(
             .setBackground(
                 ContextCompat.getDrawable(
                     requireContext(),
-                    R.drawable.background_all_tasks
+                    R.drawable.background
                 )
             )
             .setPositiveButton("Yes") { _, _ ->

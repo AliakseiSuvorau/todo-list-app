@@ -1,13 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#80FFAF">
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    android:padding="24dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Settings"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center|top"
+        android:textSize="32sp"
+        android:textColor="@color/black"/>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Disable filters"
+                android:textColor="@color/black"
+                android:textSize="24sp"/>
+
+            <CheckBox
+                android:id="@+id/disable_filters_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleX="1.5"
+                android:scaleY="1.5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Disable recommendations"
+                android:textColor="@color/black"
+                android:textSize="24sp"/>
+
+            <CheckBox
+                android:id="@+id/disable_recommendations_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleX="1.5"
+                android:scaleY="1.5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sort tasks by defficulty"
+                android:textColor="@color/black"
+                android:textSize="24sp"/>
+
+            <CheckBox
+                android:id="@+id/difficulty_sort_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleX="1.5"
+                android:scaleY="1.5"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
