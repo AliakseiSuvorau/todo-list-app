@@ -5,7 +5,7 @@ Table tags {
   tag_id     serial    [primary key]
   name       text      [not null]
   deadline   timestamp
-  difficulty integer
+  urgency    integer
   done       bool
 
   Note: 'Tags information'
@@ -16,7 +16,7 @@ Table tasks {
   title       text      [not null]
   description text
   deadline    timestamp
-  difficulty  integer
+  urgency     integer
   done        bool      [default: false, not null]
 
   Note: 'Tasks information'

@@ -8,7 +8,7 @@ data class UpdateTaskRequest(
     val title: String,
     val description: String?,
     val deadline: Instant?,
-    val difficulty: Int?,
+    val urgency: Int?,
     val done: Boolean,
     val userTags: MutableCollection<Tag> = mutableListOf(),
 )

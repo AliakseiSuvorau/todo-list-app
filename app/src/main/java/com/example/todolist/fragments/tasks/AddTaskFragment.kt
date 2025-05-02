@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.NumberPicker
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -27,10 +26,23 @@ class AddTaskFragment(
 ) : Fragment(R.layout.fragment_add_task) {
 
     private var selectedDeadline: Instant? = null
+    private var taskTitle: EditText? = null
+    private var taskDeadline: Button? = null
+    private var taskUrgency: EditText? = null
+    private var taskDescription: EditText? = null
+
+    companion object {
+        private const val ADD_TASK_PREFIX = "add_task_fragment"
+        private const val TASK_TITLE_KEY = "${ADD_TASK_PREFIX}_task_title"
+        private const val DEADLINE_KEY = "${ADD_TASK_PREFIX}_deadline"
+        private const val URGENCY_KEY = "${ADD_TASK_PREFIX}_urgency"
+        private const val DESCRIPTION_KEY = "${ADD_TASK_PREFIX}_description"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Task title
-        val taskTitle = view.findViewById<EditText>(R.id.task_name)
+        taskTitle = view.findViewById(R.id.task_name)
+        savedInstanceState?.getString(TASK_TITLE_KEY)?.let { taskTitle!!.setText(it) }
 
         // List of tags
         if (showFilters) {
@@ -40,33 +52,46 @@ class AddTaskFragment(
         }
 
         // Deadline
-        val taskDeadline = view.findViewById<Button>(R.id.task_deadline)
-        taskDeadline.setOnClickListener {
+        taskDeadline = view.findViewById(R.id.task_deadline)
+        savedInstanceState?.getString(DEADLINE_KEY)?.let { taskDeadline!!.text = it }
+        taskDeadline!!.setOnClickListener {
             showDatePicker { year, month, day ->
-                val selectedDate = String.format(Locale.UK, "%04d.%02d.%02d", year, month+1, day)
-                taskDeadline.text = selectedDate
+                val selectedDate = String.format(Locale.UK, "%04d.%02d.%02d", year, month + 1, day)
+                taskDeadline!!.text = selectedDate
                 selectedDeadline =
                     LocalDate.of(year, month + 1, day).atStartOfDay().atZone(ZoneId.systemDefault())
                         .toInstant()
             }
         }
 
-        // Difficulty
-        val taskDifficulty = view.findViewById<NumberPicker>(R.id.task_difficulty)
-        taskDifficulty.minValue = MIN_DIFFICULTY
-        taskDifficulty.maxValue = MAX_DIFFICULTY
+        // Urgency
+        taskUrgency = view.findViewById(R.id.task_urgency)
+        savedInstanceState?.getInt(URGENCY_KEY)?.let { taskUrgency!!.setText(it) }
 
         // Description
-        val taskDescription = view.findViewById<EditText>(R.id.task_description)
+        taskDescription = view.findViewById(R.id.task_description)
+        savedInstanceState?.getString(DESCRIPTION_KEY)?.let { taskDescription!!.setText(it) }
 
         // "Save" button
         view.findViewById<Button>(R.id.add_task_save_button).setOnClickListener {
+            val title = taskTitle!!.text.toString()
+            if (title == "") {
+                taskTitle!!.error = "This is a required field!"
+                return@setOnClickListener
+            }
+
+            val urgencyString = taskUrgency!!.text.toString()
+            var urgencyInt: Int? = null
+            if (urgencyString != "") {
+                urgencyInt = urgencyString.toInt()
+            }
+
             val request = AddTaskRequest(
-                title = taskTitle.text.toString(),
-                description = taskDescription.text.toString(),
+                title = title,
+                description = taskDescription!!.text.toString(),
                 deadline = selectedDeadline,
                 userTagIds = TagService.getToggledUserTags().map { it.tagId },
-                difficulty = taskDifficulty.value
+                urgency = urgencyInt
             )
             TaskService.addTask(request)
 
@@ -106,8 +131,17 @@ class AddTaskFragment(
         datePickerDialog.show()
     }
 
-    companion object {
-        private const val MIN_DIFFICULTY = 1
-        private const val MAX_DIFFICULTY = 10
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        taskTitle?.let { outState.putString(TASK_TITLE_KEY, it.text.toString()) }
+        taskDeadline?.let { outState.putString(DEADLINE_KEY, it.text.toString()) }
+        taskUrgency?.let {
+            val urgencyString = it.text.toString()
+            if (urgencyString != "") {
+                outState.putInt(URGENCY_KEY, urgencyString.toInt())
+            }
+        }
+        taskDescription?.let { outState.putString(DESCRIPTION_KEY, it.text.toString()) }
     }
 }

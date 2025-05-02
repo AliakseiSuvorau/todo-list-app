@@ -14,8 +14,8 @@ object FilterService {
         if (request.deadline != null) {
             tags.add(TagService.addDeadlineTag(request.deadline))
         }
-        if (request.difficulty != null) {
-            tags.add(TagService.addDifficultyTag(request.difficulty))
+        if (request.urgency != null) {
+            tags.add(TagService.addUrgencyTag(request.urgency))
         }
         if (request.done != null) {
             tags.add(TagService.addCompletionTag(request.done))

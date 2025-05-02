@@ -27,17 +27,21 @@
             android:background="@drawable/button_background"
             android:text="Deadline"/>
 
-        <NumberPicker
-            android:id="@+id/task_difficulty"
+        <EditText
+            android:id="@+id/task_urgency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:hint="Enter task urgency"
+            android:inputType="number|none"/>
 
         <EditText
             android:id="@+id/task_description"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:scrollbars = "vertical"
+            android:gravity="start"
             android:hint="Task description"/>
 
         <LinearLayout

@@ -8,7 +8,7 @@ import com.example.todolist.model.repositories.TaskRepository
 import com.example.todolist.model.requests.tasks.AddTaskRequest
 import com.example.todolist.model.requests.tasks.DeleteTaskRequest
 import com.example.todolist.model.requests.tasks.UpdateTaskRequest
-import com.example.todolist.sortTasksByDifficulty
+import com.example.todolist.sortTasksByUrgency
 import java.time.Instant
 import java.time.ZoneId
 
@@ -24,14 +24,14 @@ object TaskService {
             title = request.title,
             description = request.description,
             deadline = request.deadline,
-            difficulty = request.difficulty,
+            urgency = request.urgency,
             done = request.done,
             tags = tags,
         )
 
         val newTaskId = TaskRepository.upsert(newTask)
         for (tagId in request.userTagIds) {
-            TaskRepository.linkTag(tagId, newTaskId)
+            TaskRepository.linkTagToTask(tagId, newTaskId)
         }
 
         newTask.taskId = newTaskId
@@ -43,11 +43,13 @@ object TaskService {
 
     fun getFilteredTasks(filters: Collection<Filter>, showTasksWithoutDeadline: Boolean = true): MutableList<TaskItem> {
         var tasks = TaskRepository.getAll().toList()
-        if (sortTasksByDifficulty) {
-            tasks = tasks.sortedByDescending { it.difficulty }
+        if (sortTasksByUrgency) {
+            tasks = tasks.sortedByDescending { it.urgency }
         }
 
         if (filters.isEmpty()) {
+            if (tasks.isEmpty())
+                return mutableListOf(getEmptyTaskListMessageBar())
             return convertTasksToTaskEntries(tasks).toMutableList()
         }
 
@@ -112,27 +114,30 @@ object TaskService {
             title = request.title,
             description = request.description,
             deadline = request.deadline,
-            difficulty = request.difficulty,
+            urgency = request.urgency,
             tags = request.userTags,
             done = request.done
         )
 
         TaskRepository.upsert(task)
         for (tag in task.tags) {
-            TaskRepository.linkTag(tag.tagId, task.taskId)
+            TaskRepository.linkTagToTask(tag.tagId, task.taskId)
+        }
+
+        // Delete tags which are no more linked with the task
+        for (tag in TagRepository.getAll()) {
+            if (!request.userTags.contains(tag)) {
+                TaskRepository.unlinkTagFromTask(tag.tagId, task.taskId)
+            }
         }
     }
 
     fun deleteTask(request: DeleteTaskRequest) {
         TaskRepository.delete(request.taskId)
-        TaskRepository.unlinkTags(request.taskId)
+        TaskRepository.unlinkAllTagsFroTask(request.taskId)
     }
 
-    fun checkTask(task: Task, filters: Iterable<Filter>) =
-        filters.all { filter -> FilterService.checkTask(task, filter) }
-
     fun getAllTasks() = getFilteredTasks(emptyList())
-    fun getNumOfTasks() = getAllTasks().size
 
     private fun getEmptyTaskListMessageBar(): TaskItem {
         return TaskItem.InfoEntry(

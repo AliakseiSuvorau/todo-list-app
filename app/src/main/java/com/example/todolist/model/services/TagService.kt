@@ -8,7 +8,7 @@ import java.time.Instant
 
 object TagService {
     private const val DEADLINE_TAG_NAME = ".deadline"
-    private const val DIFFICULTY_TAG_NAME = ".difficulty"
+    private const val URGENCY_TAG_NAME = ".urgency"
     private const val COMPLETION_TAG_NAME = ".done"
 
     private val toggledUserTags = mutableListOf<Tag>()
@@ -30,10 +30,10 @@ object TagService {
         return newTag
     }
 
-    fun addDifficultyTag(d: Int): Tag {
+    fun addUrgencyTag(d: Int): Tag {
         val newTag = Tag(
-            name = DIFFICULTY_TAG_NAME,
-            difficulty = d,
+            name = URGENCY_TAG_NAME,
+            urgency = d,
         )
         val newTagId = TagRepository.upsert(tag = newTag)
         newTag.tagId = newTagId
@@ -56,9 +56,9 @@ object TagService {
     fun checkTag(task: Task, filterTag: Tag, showTasksWithoutDeadline: Boolean = true): Boolean {
         return when (filterTag.name) {
             DEADLINE_TAG_NAME -> checkDeadline(task.deadline, filterTag.deadline!!, showTasksWithoutDeadline)
-            DIFFICULTY_TAG_NAME -> checkDifficulty(
-                task.difficulty!!,
-                filterTag.difficulty!!
+            URGENCY_TAG_NAME -> checkUrgency(
+                task.urgency!!,
+                filterTag.urgency!!
             )
             COMPLETION_TAG_NAME -> checkCompletion(task.done, filterTag.done!!)
             else -> {
@@ -75,12 +75,12 @@ object TagService {
     private fun checkDeadline(taskDeadline: Instant?, deadline: Instant, showTasksWithoutDeadline: Boolean) =
         (showTasksWithoutDeadline && taskDeadline == null) || (taskDeadline != null &&  taskDeadline < deadline)
 
-    private fun checkDifficulty(taskDifficulty: Int, difficulty: Int) = taskDifficulty == difficulty
+    private fun checkUrgency(taskUrgency: Int, urgency: Int) = taskUrgency == urgency
     private fun checkCompletion(taskIsDone: Boolean, done: Boolean) = taskIsDone == done
     private fun checkUserTag(taskTagName: String, tagName: String) = taskTagName == tagName
 
     fun getUserTags() = TagRepository.getAll()
-        .filterNot { it.name == DEADLINE_TAG_NAME || it.name == DIFFICULTY_TAG_NAME || it.name == COMPLETION_TAG_NAME }
+        .filterNot { it.name == DEADLINE_TAG_NAME || it.name == URGENCY_TAG_NAME || it.name == COMPLETION_TAG_NAME }
 
     fun removeTagFromToggled(tag: Tag) {
         toggledUserTags.remove(tag)

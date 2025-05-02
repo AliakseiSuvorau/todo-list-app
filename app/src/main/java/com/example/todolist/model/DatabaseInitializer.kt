@@ -21,7 +21,7 @@ class DatabaseInitializer(context: Context) : SQLiteOpenHelper(context, DATABASE
                 tag_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 deadline TIMESTAMP,
-                difficulty INTEGER,
+                urgency INTEGER,
                 done BOOLEAN
             );
             """.trimIndent()
@@ -34,7 +34,7 @@ class DatabaseInitializer(context: Context) : SQLiteOpenHelper(context, DATABASE
                 title TEXT NOT NULL,
                 description TEXT,
                 deadline TIMESTAMP,
-                difficulty INTEGER,
+                urgency INTEGER,
                 done BOOLEAN NOT NULL DEFAULT 0
             );
             """.trimIndent()

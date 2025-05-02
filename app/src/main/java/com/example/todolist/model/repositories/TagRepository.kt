@@ -6,8 +6,6 @@ import androidx.core.database.getIntOrNull
 import androidx.core.database.getStringOrNull
 import com.example.todolist.model.dtos.tags.Tag
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 object TagRepository : Repository<Tag> {
     private lateinit var db: SQLiteDatabase
@@ -32,17 +30,11 @@ object TagRepository : Repository<Tag> {
 
         cursor.use { c ->
             while (c.moveToNext()) {
-                val deadlineString = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))
-                var deadline: Instant? = null
-                if (deadlineString != "null") {
-                    deadline = Instant.parse(deadlineString)
-                }
-
                 val tag = Tag(
                     tagId = c.getInt(c.getColumnIndexOrThrow("tag_id")),
                     name = c.getString(c.getColumnIndexOrThrow("name")),
-                    deadline = deadline,
-                    difficulty = c.getIntOrNull(c.getColumnIndexOrThrow("difficulty")),
+                    deadline = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))?.let { Instant.parse(it) },
+                    urgency = c.getIntOrNull(c.getColumnIndexOrThrow("urgency")),
                     done = c.getIntOrNull(c.getColumnIndexOrThrow("done")) == 1,
                 )
                 tags.add(tag)
@@ -77,15 +69,15 @@ object TagRepository : Repository<Tag> {
             t.tagId == id
         }
 
-        TaskRepository.unlinkTag(id)
+        TaskRepository.unlinkTagFromAllTasks(id)
         FilterRepository.unlinkTag(id)
     }
 
     override fun upsert(tag: Tag): Int {
         val values = ContentValues().apply {
             put("name", tag.name)
-            put("deadline", tag.deadline.toString())
-            put("difficulty", tag.difficulty)
+            put("deadline", tag.deadline?.toString())
+            put("urgency", tag.urgency)
             put("done", if (tag.done == true) 1 else 0)
         }
 
@@ -124,17 +116,11 @@ object TagRepository : Repository<Tag> {
 
         cursor.use { c ->
             if (c.moveToNext()) {
-                val deadlineString = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))
-                var deadline: Instant? = null
-                if (deadlineString != "null") {
-                    deadline = Instant.parse(deadlineString)
-                }
-
                 return Tag(
                     tagId = id,
                     name = c.getString(c.getColumnIndexOrThrow("name")),
-                    deadline = deadline,
-                    difficulty = c.getIntOrNull(c.getColumnIndexOrThrow("difficulty")),
+                    deadline = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))?.let { Instant.parse(it) },
+                    urgency = c.getIntOrNull(c.getColumnIndexOrThrow("urgency")),
                     done = c.getIntOrNull(c.getColumnIndexOrThrow("done")) == 1
                 )
             }
@@ -153,17 +139,11 @@ object TagRepository : Repository<Tag> {
         val tags = mutableListOf<Tag>()
         cursor.use { c ->
             while (c.moveToNext()) {
-                val deadlineString = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))
-                var deadline: Instant? = null
-                if (deadlineString != "null") {
-                    deadline = Instant.parse(deadlineString)
-                }
-
                 tags.add(Tag(
                     tagId = c.getInt(c.getColumnIndexOrThrow("tag_id")),
                     name = c.getString(c.getColumnIndexOrThrow("name")),
-                    deadline = deadline,
-                    difficulty = c.getIntOrNull(c.getColumnIndexOrThrow("difficulty")),
+                    deadline = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))?.let { Instant.parse(it) },
+                    urgency = c.getIntOrNull(c.getColumnIndexOrThrow("urgency")),
                     done = c.getIntOrNull(c.getColumnIndexOrThrow("done")) == 1,
                 ))
             }

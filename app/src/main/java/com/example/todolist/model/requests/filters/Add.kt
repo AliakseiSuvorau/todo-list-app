@@ -6,6 +6,6 @@ data class AddFilterRequest(
     val name: String,
     val userTagIds: Collection<Int>,
     val deadline: Instant?,
-    val difficulty: Int?,
+    val urgency: Int?,
     val done: Boolean?,
 )

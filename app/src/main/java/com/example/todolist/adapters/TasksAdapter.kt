@@ -49,7 +49,11 @@ class TasksAdapter(
         val i = getRandomIndex()
         ad.id = i
         synchronized(items) {
-            items.add(i, ad)
+            if (items.isEmpty()) {
+                items.add(ad)
+            } else {
+                items.add(i, ad)
+            }
             notifyItemInserted(i)
         }
         return i
@@ -57,12 +61,12 @@ class TasksAdapter(
 
     private fun getRandomIndex(): Int {
         val minValue = 0
-        val maxValue = items.size - 1
+        val maxValue = if (items.isEmpty()) 0 else items.size - 1
         return (minValue..maxValue).random()
     }
 
     fun removeAd(i: Int) {
-        if (items[i] is TaskItem.AdEntry) {
+        if (items.isNotEmpty() && items[i] is TaskItem.AdEntry) {
             synchronized(items) {
                 items.removeAt(i)
                 notifyItemRemoved(i)
@@ -98,7 +102,7 @@ class TasksAdapter(
                     title = task.title,
                     description = task.description,
                     deadline = task.deadline,
-                    difficulty = task.difficulty,
+                    urgency = task.urgency,
                     done = isChecked
                 )
 

@@ -1,44 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background"
     android:padding="24sp">
 
-    <EditText
-        android:id="@+id/user_filter_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter filter name" />
+        android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/tags_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        <EditText
+            android:id="@+id/user_filter_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter filter name" />
 
-    <CheckBox
-        android:id="@+id/checkbox_done"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Show only finished tasks" />
+        <FrameLayout
+            android:id="@+id/tags_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
-    <Button
-        android:id="@+id/pick_deadline_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_background"
-        android:stateListAnimator="@null"
-        android:text="Deadline" />
+        <CheckBox
+            android:id="@+id/checkbox_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Show finished tasks" />
 
-    <NumberPicker
-        android:id="@+id/difficulty_selector"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        <CheckBox
+            android:id="@+id/checkbox_not_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Show unfinished tasks" />
+
+        <Button
+            android:id="@+id/pick_deadline_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:stateListAnimator="@null"
+            android:text="Deadline" />
+
+        <EditText
+            android:id="@+id/filter_urgency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Enter task urgency"
+            android:inputType="number|none"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -66,4 +80,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

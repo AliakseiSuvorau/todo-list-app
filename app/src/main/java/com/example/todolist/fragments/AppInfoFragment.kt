@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.todolist.R
 
 class AppInfoFragment : Fragment(R.layout.fragment_about_app) {
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

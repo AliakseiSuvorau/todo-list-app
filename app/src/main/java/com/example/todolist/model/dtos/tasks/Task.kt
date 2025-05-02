@@ -8,7 +8,7 @@ data class Task(
     var title: String,
     var description: String?,
     var deadline: Instant?,
-    var difficulty: Int?,
+    var urgency: Int?,
     var done: Boolean,
     var tags: MutableCollection<Tag> = mutableListOf(),
 )

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.todolist.R
 import com.example.todolist.disableAds
 import com.example.todolist.showFilters
-import com.example.todolist.sortTasksByDifficulty
+import com.example.todolist.sortTasksByUrgency
 
 class SettingsFragment : Fragment(R.layout.settings) {
 
@@ -16,7 +16,7 @@ class SettingsFragment : Fragment(R.layout.settings) {
         super.onViewCreated(view, savedInstanceState)
 
         val initialDisableFilter = showFilters
-        val initialSortOrder = sortTasksByDifficulty
+        val initialSortOrder = sortTasksByUrgency
         val initialDisableAds = disableAds
 
         val disableFiltersCheckbox = view.findViewById<CheckBox>(R.id.disable_filters_checkbox)
@@ -33,16 +33,16 @@ class SettingsFragment : Fragment(R.layout.settings) {
             disableAds = isChecked
         }
 
-        val sortTasksByDifficultyCheckbox = view.findViewById<CheckBox>(R.id.difficulty_sort_checkbox)
-        sortTasksByDifficultyCheckbox.setOnClickListener(null)
-        sortTasksByDifficultyCheckbox.isChecked = sortTasksByDifficulty
-        sortTasksByDifficultyCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            sortTasksByDifficulty = isChecked
+        val sortTasksByUrgencyCheckbox = view.findViewById<CheckBox>(R.id.urgency_sort_checkbox)
+        sortTasksByUrgencyCheckbox.setOnClickListener(null)
+        sortTasksByUrgencyCheckbox.isChecked = sortTasksByUrgency
+        sortTasksByUrgencyCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            sortTasksByUrgency = isChecked
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             showFilters = initialDisableFilter
-            sortTasksByDifficulty = initialSortOrder
+            sortTasksByUrgency = initialSortOrder
             disableAds = initialDisableAds
             parentFragmentManager.popBackStack()
         }

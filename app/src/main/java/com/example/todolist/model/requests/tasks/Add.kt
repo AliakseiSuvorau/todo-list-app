@@ -6,7 +6,7 @@ data class AddTaskRequest(
     val title: String,
     val description: String?,
     val deadline: Instant?,
-    val difficulty: Int?,
+    val urgency: Int?,
     val done: Boolean = false,
     val userTagIds: Iterable<Int>,
 )

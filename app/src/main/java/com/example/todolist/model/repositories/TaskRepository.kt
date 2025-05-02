@@ -7,8 +7,6 @@ import androidx.core.database.getStringOrNull
 import com.example.todolist.model.dtos.tags.Tag
 import com.example.todolist.model.dtos.tasks.Task
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 object TaskRepository : Repository<Task> {
     private lateinit var db: SQLiteDatabase
@@ -40,8 +38,8 @@ object TaskRepository : Repository<Task> {
         val values = ContentValues().apply {
             put("title", task.title)
             put("description", task.description)
-            put("deadline", task.deadline.toString())
-            put("difficulty", task.difficulty)
+            put("deadline", task.deadline?.toString())
+            put("urgency", task.urgency)
             put("done", if (task.done) 1 else 0)
         }
 
@@ -64,7 +62,7 @@ object TaskRepository : Repository<Task> {
                 t.title = task.title
                 t.description = task.description
                 t.deadline = task.deadline
-                t.difficulty = task.difficulty
+                t.urgency = task.urgency
                 t.done = task.done
             }
         }
@@ -86,18 +84,12 @@ object TaskRepository : Repository<Task> {
 
         cursor.use { c ->
             while (c.moveToNext()) {
-                val deadlineString = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))
-                var deadline: Instant? = null
-                if (deadlineString != "null") {
-                    deadline = Instant.parse(deadlineString)
-                }
-
                 val task = Task(
                     taskId = c.getInt(c.getColumnIndexOrThrow("task_id")),
                     title = c.getString(c.getColumnIndexOrThrow("title")),
                     description = c.getStringOrNull(c.getColumnIndexOrThrow("description")),
-                    deadline = deadline,
-                    difficulty = c.getIntOrNull(c.getColumnIndexOrThrow("difficulty")),
+                    deadline = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))?.let { Instant.parse(it) },
+                    urgency = c.getIntOrNull(c.getColumnIndexOrThrow("urgency")),
                     done = c.getInt(c.getColumnIndexOrThrow("done")) == 1,
                 )
                 tasks.add(task)
@@ -120,17 +112,11 @@ object TaskRepository : Repository<Task> {
 
             cursor.use { c ->
                 while (c.moveToNext()) {
-                    val deadlineString = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))
-                    var deadline: Instant? = null
-                    if (deadlineString != "null") {
-                        deadline = Instant.parse(deadlineString)
-                    }
-
                     val tag = Tag(
                         tagId = c.getInt(c.getColumnIndexOrThrow("tag_id")),
                         name = c.getString(c.getColumnIndexOrThrow("name")),
-                        deadline = deadline,
-                        difficulty = c.getIntOrNull(c.getColumnIndexOrThrow("difficulty")),
+                        deadline = c.getStringOrNull(c.getColumnIndexOrThrow("deadline"))?.let { Instant.parse(it) },
+                        urgency = c.getIntOrNull(c.getColumnIndexOrThrow("urgency")),
                         done = c.getIntOrNull(c.getColumnIndexOrThrow("done"))?.let { it == 1 }
                     )
                     tags.add(tag)
@@ -141,10 +127,23 @@ object TaskRepository : Repository<Task> {
         }
     }
 
-    fun linkTag(tagId: Int, taskId: Int) {
+    fun linkTagToTask(tagId: Int, taskId: Int) {
         val values = ContentValues().apply {
             put("task_id", taskId.toString())
             put("tag_id", tagId.toString())
+        }
+
+        // First check if link is already present
+        val query = """
+                SELECT * FROM task_tag
+                WHERE task_id = ? AND tag_id = ?
+            """.trimIndent()
+
+        val cursor = db.rawQuery(query, arrayOf(taskId.toString(), tagId.toString()))
+        cursor.use { c ->
+            if (c.moveToNext()) {
+                return
+            }
         }
 
         db.insert(
@@ -162,7 +161,7 @@ object TaskRepository : Repository<Task> {
         }
     }
 
-    fun unlinkTag(tagId: Int) {
+    fun unlinkTagFromAllTasks(tagId: Int) {
         tasks.forEach { task ->
             task.tags.removeIf { tag ->
                 tag.tagId == tagId
@@ -170,11 +169,32 @@ object TaskRepository : Repository<Task> {
         }
     }
 
-    fun unlinkTags(taskId: Int) {
+    fun unlinkAllTagsFroTask(taskId: Int) {
         db.delete(
             "task_tag",
             "task_id = ?",
             arrayOf(taskId.toString())
         )
+    }
+
+    fun unlinkTagFromTask(tagId: Int, taskId: Int) {
+        val query = """
+            SELECT * FROM task_tag
+            WHERE task_id = ? AND tag_id = ?
+        """.trimIndent()
+
+        val cursor = db.rawQuery(query, arrayOf(taskId.toString(), tagId.toString()))
+
+        cursor.use { c ->
+            if (c.moveToNext()) {
+                db.delete(
+                    "task_tag",
+                    "task_id = ? AND tag_id = ?",
+                    arrayOf(taskId.toString(), tagId.toString())
+                )
+            }
+        }
+
+        tasks.forEach { task -> task.tags.removeIf { taskTag -> taskTag.tagId == tagId } }
     }
 }

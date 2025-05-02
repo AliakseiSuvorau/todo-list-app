@@ -38,10 +38,10 @@ class TagsFragment(
     }
 
     private fun setUserTags() {
-        val userTags = TagService.getUserTags()
+        toggledTags.forEach { tag -> TagService.addTagToToggled(tag) }
         recyclerUserTags.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        userTagsAdapter = UserTagsAdapter(userTags.toMutableList(), toggledTags)
+        userTagsAdapter = UserTagsAdapter(TagService.getUserTags().toMutableList(), toggledTags)
         recyclerUserTags.adapter = userTagsAdapter
     }
 
@@ -61,6 +61,9 @@ class TagsFragment(
             )
             .setPositiveButton("Add") { _, _ ->
                 val name = userTagName.text.toString()
+                if (name == "") {
+                    return@setPositiveButton
+                }
 
                 val request = AddTagRequest(name = name)
 
