@@ -39,8 +39,7 @@ class FiltersAdapter(
                 FilterService.removeFilterFromToggled(filter)
             }
 
-            val toggledFilters = FilterService.getToggledFilters()
-            tasksAdapter.updateTasksList(toggledFilters)
+            tasksAdapter.updateTasksList()
         }
 
         private fun updateButtonBackground(isChecked: Boolean) {

@@ -13,6 +13,7 @@ class SettingsPage : Fragment(R.layout.settings) {
 
         val initialDisableFilter = showFilters
         val initialSortOrder = sortTasksByDifficulty
+        val initialDisableAds = disableAds
 
         val disableFiltersCheckbox = view.findViewById<CheckBox>(R.id.disable_filters_checkbox)
         disableFiltersCheckbox.setOnCheckedChangeListener(null)
@@ -21,7 +22,12 @@ class SettingsPage : Fragment(R.layout.settings) {
             showFilters = !isChecked
         }
 
-        val disableRecommendationsCheckbox = view.findViewById<CheckBox>(R.id.disable_recommendations_checkbox)
+        val disableAdsCheckbox = view.findViewById<CheckBox>(R.id.disable_ads_checkbox)
+        disableAdsCheckbox.setOnClickListener(null)
+        disableAdsCheckbox.isChecked = disableAds
+        disableAdsCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            disableAds = isChecked
+        }
 
         val sortTasksByDifficultyCheckbox = view.findViewById<CheckBox>(R.id.difficulty_sort_checkbox)
         sortTasksByDifficultyCheckbox.setOnClickListener(null)
@@ -33,6 +39,7 @@ class SettingsPage : Fragment(R.layout.settings) {
         requireActivity().onBackPressedDispatcher.addCallback {
             showFilters = initialDisableFilter
             sortTasksByDifficulty = initialSortOrder
+            disableAds = initialDisableAds
             parentFragmentManager.popBackStack()
         }
     }

@@ -6,10 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.adapters.TasksAdapter
 import android.view.View
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.R
+import com.example.todolist.adapters.TaskItem
+import com.example.todolist.disableAds
+import com.example.todolist.model.services.AdService
 import com.example.todolist.model.services.TaskService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class TasksFragment(
     showCurrentTasks: Boolean = false,
@@ -17,6 +23,7 @@ class TasksFragment(
 
     private lateinit var recyclerTasks: RecyclerView
     private val taskAdapter: TasksAdapter
+    private var adJob: Job? = null
 
     init {
         val tasks = if (showCurrentTasks) {
@@ -32,6 +39,23 @@ class TasksFragment(
         super.onViewCreated(view, savedInstanceState)
 
         displayTaskList(view)
+
+        if (!disableAds) {
+            val adService = AdService(taskAdapter) {
+                TaskItem.AdEntry (
+                    text = "Advertisement"
+                )
+            }
+
+            adJob = viewLifecycleOwner.lifecycleScope.launch {
+                adService.startAdCycle()
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adJob?.cancel()
     }
 
     private fun displayTaskList(view: View) {

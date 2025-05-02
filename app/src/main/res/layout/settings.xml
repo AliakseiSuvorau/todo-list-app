@@ -51,12 +51,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Disable recommendations"
+                android:text="Disable ads"
                 android:textColor="@color/black"
                 android:textSize="24sp"/>
 
             <CheckBox
-                android:id="@+id/disable_recommendations_checkbox"
+                android:id="@+id/disable_ads_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -74,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sort tasks by defficulty"
+                android:text="Sort tasks by difficulty"
                 android:textColor="@color/black"
                 android:textSize="24sp"/>
 

@@ -72,8 +72,7 @@ class AddTaskFragment(
 
             TagService.clearToggledUserTags()
 
-            val toggledFilters = FilterService.getToggledFilters()
-            tasksAdapter.updateTasksList(toggledFilters)
+            tasksAdapter.updateTasksList()
 
             parentFragmentManager.commit {
                 remove(this@AddTaskFragment)
