@@ -5,34 +5,10 @@
     android:layout_height="match_parent"
     android:gravity="bottom">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/about_app_button"
-            android:layout_width="32sp"
-            android:layout_height="32sp"
-            android:background="@drawable/baseline_info_40"
-            android:layout_gravity="center"
-            android:layout_margin="4dp"
-            android:textAlignment="center"
-            android:textSize="32sp"
-            android:textColor="@color/black"
-            android:textStyle="bold|italic"
-            android:textAllCaps="false"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="To-Do List"
-            android:textAlignment="center"
-            android:textSize="32sp"
-            android:textColor="@color/black"/>
-
-    </LinearLayout>
+        android:layout_height="wrap_content"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -40,31 +16,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
     
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/all_tasks_list_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:text="All"/>
-
-        <Button
-            android:id="@+id/current_tasks_list_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:text="Current"/>
-
-        <Button
-            android:id="@+id/settings_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:text="Settings"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

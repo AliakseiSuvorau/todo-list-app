@@ -1,4 +1,4 @@
-package com.example.todolist.fragments
+package com.example.todolist.fragments.filters
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.example.todolist.R
 import com.example.todolist.adapters.FiltersAdapter
+import com.example.todolist.fragments.tags.TagsFragment
 import com.example.todolist.model.requests.filters.AddFilterRequest
 import com.example.todolist.model.services.FilterService
 import com.example.todolist.model.services.TagService

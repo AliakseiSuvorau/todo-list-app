@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ToDoList</string>
+    <string name="tg_link">tg: <a href="https://t.me/Lexa_0_Suvorov">@Lexa_0_Suvorov</a></string>
+    <string name="github_link">github: <a href="https://github.com/AliakseiSuvorau">@AliakseiSuvorau</a></string>
 </resources>

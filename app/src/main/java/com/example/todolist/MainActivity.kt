@@ -7,6 +7,12 @@ import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.commit
+import com.example.todolist.fragments.AllTasksFragment
+import com.example.todolist.fragments.CurrentTasksFragment
+import com.example.todolist.fragments.FooterFragment
+import com.example.todolist.fragments.HeaderFragment
+import com.example.todolist.fragments.MainPageFragment
+import com.example.todolist.fragments.SettingsFragment
 import com.example.todolist.model.DatabaseInitializer
 import com.example.todolist.model.repositories.FilterRepository
 import com.example.todolist.model.repositories.TagRepository
@@ -23,24 +29,31 @@ class MainActivity : AppCompatActivity() {
 
         // Initial main page content
         supportFragmentManager.commit {
-            add(R.id.fragment_container, MainPage())
+            add(R.id.fragment_container, MainPageFragment())
         }
 
         // If "back" is pressed then show the main page content
         // If the main page is already shown then exit the app
         onBackPressedDispatcher.addCallback {
             val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-            if (currentFragment != null && currentFragment is MainPage) {
+            if (currentFragment != null && currentFragment is MainPageFragment) {
                 finish()
                 return@addCallback
             }
 
             supportFragmentManager.commit {
-                replace(R.id.fragment_container, MainPage())
+                replace(R.id.fragment_container, MainPageFragment())
             }
         }
 
-        setButtonClickListeners()
+        // Header
+        supportFragmentManager.commit {
+            replace(R.id.header, HeaderFragment())
+        }
+
+        supportFragmentManager.commit {
+            replace(R.id.footer, FooterFragment())
+        }
     }
 
     private fun openFragmentOnMainPage(f: Fragment) {
@@ -57,15 +70,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setButtonClickListeners() {
         findViewById<Button>(R.id.all_tasks_list_button).setOnClickListener {
-            openFragmentOnMainPage(AllTasksPage())
+            openFragmentOnMainPage(AllTasksFragment())
         }
 
         findViewById<Button>(R.id.current_tasks_list_button).setOnClickListener {
-            openFragmentOnMainPage(CurrentTasksPage())
+            openFragmentOnMainPage(CurrentTasksFragment())
         }
 
         findViewById<Button>(R.id.settings_button).setOnClickListener {
-            openFragmentOnMainPage(SettingsPage())
+            openFragmentOnMainPage(SettingsFragment())
         }
     }
 

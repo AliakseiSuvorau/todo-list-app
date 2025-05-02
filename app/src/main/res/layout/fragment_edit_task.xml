@@ -22,6 +22,9 @@
         android:id="@+id/task_deadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"
+        android:stateListAnimator="@null"
         android:text="Deadline"/>
 
     <NumberPicker
@@ -48,18 +51,27 @@
             android:id="@+id/edit_task_save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:layout_marginEnd="3dp"
+            android:stateListAnimator="@null"
             android:text="Save"/>
 
         <Button
             android:id="@+id/edit_task_cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:layout_marginHorizontal="2dp"
+            android:stateListAnimator="@null"
             android:text="Cancel"/>
 
         <Button
             android:id="@+id/edit_task_delete_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:layout_marginStart="3dp"
+            android:stateListAnimator="@null"
             android:text="Delete"/>
 
     </LinearLayout>

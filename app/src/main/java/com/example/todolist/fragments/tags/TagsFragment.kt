@@ -1,4 +1,4 @@
-package com.example.todolist.fragments
+package com.example.todolist.fragments.tags
 
 import android.os.Bundle
 import android.view.LayoutInflater

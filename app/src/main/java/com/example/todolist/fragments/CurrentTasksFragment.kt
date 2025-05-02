@@ -1,13 +1,15 @@
-package com.example.todolist
+package com.example.todolist.fragments
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.example.todolist.fragments.TasksFragment
-import com.example.todolist.fragments.UserFiltersFragment
+import com.example.todolist.R
+import com.example.todolist.fragments.tasks.TasksFragment
+import com.example.todolist.fragments.filters.UserFiltersFragment
+import com.example.todolist.showFilters
 
-class CurrentTasksPage : Fragment(R.layout.fragment_current_tasks) {
+class CurrentTasksFragment : Fragment(R.layout.fragment_current_tasks) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

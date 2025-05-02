@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
-import com.example.todolist.fragments.EditTaskFragment
+import com.example.todolist.fragments.tasks.EditTaskFragment
 import com.example.todolist.model.dtos.tasks.Task
 import com.example.todolist.model.requests.tasks.UpdateTaskRequest
 import com.example.todolist.model.services.FilterService
