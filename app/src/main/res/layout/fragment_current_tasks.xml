@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tasks"
+            android:text="@string/tasks"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="32sp"/>

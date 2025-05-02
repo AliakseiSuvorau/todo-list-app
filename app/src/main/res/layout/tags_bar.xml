@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose tags"
+        android:text="@string/choose_tags"
         android:textColor="@color/black" />
 
     <LinearLayout
@@ -32,7 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:autofillHints="hdhhd"
             android:minHeight="32sp" />
     </LinearLayout>
 </LinearLayout>

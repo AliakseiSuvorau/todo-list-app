@@ -5,7 +5,7 @@
 
     <EditText
         android:id="@+id/user_tag_name"
-        android:hint="Enter tag name"
+        android:hint="@string/enter_tag_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"/>

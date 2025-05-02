@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Contacts:"/>
+                android:text="@string/contacts"/>
 
             <TextView
                 android:id="@+id/tg_link"
@@ -47,6 +47,6 @@
         android:layout_gravity="bottom|end"
         android:background="@drawable/button_background"
         android:stateListAnimator="@null"
-        android:text="Back"/>
+        android:text="@string/back"/>
 
 </FrameLayout>

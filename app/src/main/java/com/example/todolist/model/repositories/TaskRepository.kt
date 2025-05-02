@@ -101,7 +101,7 @@ object TaskRepository : Repository<Task> {
 
     private fun linkTags() {
         val query = """
-                SELECT tags.* FROM tags
+                SELECT * FROM tags
                 INNER JOIN task_tag ON tags.tag_id = task_tag.tag_id
                 WHERE task_id = ?
             """.trimIndent()
@@ -154,11 +154,9 @@ object TaskRepository : Repository<Task> {
 
         val tag = TagRepository.getById(tagId) ?: throw IllegalStateException("Linking null tag to a task")
 
-        tasks.filter { t ->
+        tasks.find { t ->
             t.taskId == taskId
-        }.forEach { t ->
-            t.tags.add(tag)
-        }
+        }?.tags?.add(tag)
     }
 
     fun unlinkTagFromAllTasks(tagId: Int) {
@@ -195,6 +193,6 @@ object TaskRepository : Repository<Task> {
             }
         }
 
-        tasks.forEach { task -> task.tags.removeIf { taskTag -> taskTag.tagId == tagId } }
+        tasks.find { task -> task.taskId == taskId }?.tags?.removeIf { tag -> tag.tagId == tagId }
     }
 }

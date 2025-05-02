@@ -18,7 +18,6 @@
         android:id="@+id/ad_close_button"
         android:layout_width="32sp"
         android:layout_height="32sp"
-
         android:layout_gravity="center"
         android:background="@drawable/baseline_cancel_40"/>
 

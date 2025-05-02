@@ -128,11 +128,15 @@ class EditTaskFragment(
                 remove(this@EditTaskFragment)
                 parentFragmentManager.popBackStack()
             }
+
+            TagService.clearToggledUserTags()
         }
 
         // "Delete" button
         view.findViewById<Button>(R.id.edit_task_delete_button).setOnClickListener {
             showDeleteTaskConfirmationDialog()
+
+            TagService.clearToggledUserTags()
         }
 
         // System "back" button

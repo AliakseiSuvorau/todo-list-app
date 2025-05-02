@@ -86,7 +86,7 @@ object FilterRepository : Repository<Filter> {
 
     private fun linkTags() {
         val query = """
-                SELECT tags.* FROM tags
+                SELECT * FROM tags
                 INNER JOIN tag_filter ON tags.tag_id = tag_filter.tag_id
                 WHERE filter_id = ?
             """.trimIndent()

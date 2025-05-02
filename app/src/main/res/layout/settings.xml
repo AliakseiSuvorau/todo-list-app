@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:text="@string/settings"
         android:layout_gravity="center|top"
         android:textSize="32sp"
         android:textColor="@color/black"/>
@@ -28,7 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Disable filters"
+                android:text="@string/disable_filters"
                 android:textColor="@color/black"
                 android:textSize="24sp"/>
 
@@ -51,7 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Disable ads"
+                android:text="@string/disable_ads"
                 android:textColor="@color/black"
                 android:textSize="24sp"/>
 
@@ -74,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sort tasks by urgency"
+                android:text="@string/sort_tasks_by_urgency"
                 android:textColor="@color/black"
                 android:textSize="24sp"/>
 

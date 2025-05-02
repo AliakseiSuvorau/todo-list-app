@@ -124,7 +124,7 @@ object TaskService {
             TaskRepository.linkTagToTask(tag.tagId, task.taskId)
         }
 
-        // Delete tags which are no more linked with the task
+        // Delete tags which are no more linked to the task
         for (tag in TagRepository.getAll()) {
             if (!request.userTags.contains(tag)) {
                 TaskRepository.unlinkTagFromTask(tag.tagId, task.taskId)
