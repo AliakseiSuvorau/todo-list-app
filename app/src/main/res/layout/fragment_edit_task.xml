@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    android:padding="24sp">
+
+    <EditText
+        android:id="@+id/task_name"
+        android:hint="@string/enter_task_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <FrameLayout
+        android:id="@+id/tags_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
+    <Button
+        android:id="@+id/task_deadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"
+        android:stateListAnimator="@null"
+        android:text="@string/deadline"/>
+
+    <EditText
+        android:id="@+id/task_urgency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/enter_task_urgency"
+        android:inputType="number|none"/>
+
+    <EditText
+        android:id="@+id/task_description"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars = "vertical"
+        android:gravity="start"
+        android:hint="@string/task_description"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/edit_task_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:layout_marginEnd="3dp"
+            android:stateListAnimator="@null"
+            android:text="@string/save"/>
+
+        <Button
+            android:id="@+id/edit_task_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:layout_marginHorizontal="2dp"
+            android:stateListAnimator="@null"
+            android:text="@string/cancel"/>
+
+        <Button
+            android:id="@+id/edit_task_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:layout_marginStart="3dp"
+            android:stateListAnimator="@null"
+            android:text="@string/delete"/>
+
+    </LinearLayout>
+
+</LinearLayout>

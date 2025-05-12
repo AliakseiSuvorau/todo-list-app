@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/blue">
+
+    <Button
+        android:id="@+id/about_app_button"
+        android:layout_width="32sp"
+        android:layout_height="32sp"
+        android:layout_gravity="center"
+        android:layout_margin="4dp"
+        android:background="@drawable/baseline_info_40"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/to_do_list"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="32sp" />
+
+</LinearLayout>
